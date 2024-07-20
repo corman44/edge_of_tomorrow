@@ -22,7 +22,7 @@ env:
   PACKAGE_NAME: you_are_bugs
   # The itch.io page to upload to, in the format: `user-name/project-name`.
   # Comment this out to disable.
-  ITCH_TARGET: corman44/youre_bugs
+  ITCH_TARGET: corman44/youre-bugs
   # The organization or author that owns the rights to the game.
   OWNER: corman44
   # The path to the assets directory.
