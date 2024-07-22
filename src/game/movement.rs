@@ -16,10 +16,13 @@ pub(super) fn plugin(app: &mut App) {
     );
 
     // Apply movement based on controls.
-    app.register_type::<(Movement, WrapWithinWindow)>();
+    app.register_type::<Movement>();
     app.add_systems(
         Update,
-        (apply_movement, wrap_within_window)
+        (
+            apply_movement, 
+            // wrap_within_window
+        )
             .chain()
             .in_set(AppSet::Update),
     );
@@ -35,16 +38,16 @@ fn record_movement_controller(
 ) {
     // Collect directional input.
     let mut intent = Vec2::ZERO;
-    if input.pressed(KeyCode::KeyW) || input.pressed(KeyCode::ArrowUp) {
+    if input.pressed(KeyCode::KeyW) {
         intent.y += 1.0;
     }
-    if input.pressed(KeyCode::KeyS) || input.pressed(KeyCode::ArrowDown) {
+    if input.pressed(KeyCode::KeyS) {
         intent.y -= 1.0;
     }
-    if input.pressed(KeyCode::KeyA) || input.pressed(KeyCode::ArrowLeft) {
+    if input.pressed(KeyCode::KeyA) {
         intent.x -= 1.0;
     }
-    if input.pressed(KeyCode::KeyD) || input.pressed(KeyCode::ArrowRight) {
+    if input.pressed(KeyCode::KeyD) {
         intent.x += 1.0;
     }
 

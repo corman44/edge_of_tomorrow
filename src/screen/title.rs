@@ -28,8 +28,8 @@ fn enter_title(mut commands: Commands) {
         .insert(StateScoped(Screen::Title))
         .with_children(|children| {
             children.button("Play").insert(TitleAction::Play);
-            children.button("Credits").insert(TitleAction::Credits);
-
+            // children.button("Credits").insert(TitleAction::Credits);
+            
             #[cfg(not(target_family = "wasm"))]
             children.button("Exit").insert(TitleAction::Exit);
         });

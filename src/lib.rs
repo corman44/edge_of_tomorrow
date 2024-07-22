@@ -9,6 +9,7 @@ use bevy::{
     audio::{AudioPlugin, Volume},
     prelude::*,
 };
+use game::camera_movement::{CameraMovement, CameraMovementController};
 
 pub struct AppPlugin;
 
@@ -85,5 +86,7 @@ fn spawn_camera(mut commands: Commands) {
         // [ui node outlines](https://bevyengine.org/news/bevy-0-14/#ui-node-outline-gizmos)
         // for debugging. So it's good to have this here for future-proofing.
         IsDefaultUiCamera,
+        CameraMovementController::default(),
+        CameraMovement { speed: 420.0 },
     ));
 }
