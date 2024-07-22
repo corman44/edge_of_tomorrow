@@ -12,7 +12,10 @@ pub(super) fn plugin(app: &mut App) {
     app.register_type::<CameraMovement>();
     app.add_systems(
         Update,
-        apply_camera_movement.in_set(AppSet::Update),
+        (
+            apply_camera_movement,
+            reset_camera_location,
+        ).in_set(AppSet::Update),
     );
 }
 
@@ -42,6 +45,17 @@ fn record_camera_movement_controller(
 
     for mut camera_controller in &mut camera_controller_query {
         camera_controller.0 = intent;
+    }
+}
+
+fn reset_camera_location(
+    input: Res<ButtonInput<KeyCode>>,
+    mut camera_movement_query: Query<(&CameraMovementController, &CameraMovement, &mut Transform)>
+) {
+    if input.just_pressed(KeyCode::Space) {
+        for (_, _, mut transform) in &mut camera_movement_query {
+            transform.translation = Vec3::ZERO;
+        }
     }
 }
 

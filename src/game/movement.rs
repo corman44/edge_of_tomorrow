@@ -20,7 +20,8 @@ pub(super) fn plugin(app: &mut App) {
     app.add_systems(
         Update,
         (
-            apply_movement, 
+            apply_movement,
+            reset_player_location,
             // wrap_within_window
         )
             .chain()
@@ -58,6 +59,17 @@ fn record_movement_controller(
     // Apply movement intent to controllers.
     for mut controller in &mut controller_query {
         controller.0 = intent;
+    }
+}
+
+fn reset_player_location(
+    input: Res<ButtonInput<KeyCode>>,
+    mut movement_query: Query<(&MovementController, &Movement, &mut Transform)>,
+) {
+    if input.just_pressed(KeyCode::Space) {
+        for (_, _, mut transform) in &mut movement_query {
+            transform.translation = Vec3::ZERO;
+        }
     }
 }
 
