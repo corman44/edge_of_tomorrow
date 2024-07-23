@@ -1,6 +1,6 @@
 use bevy::{prelude::*, window::PrimaryWindow};
 
-use crate::AppSet;
+use crate::{get_default_camera_transform, AppSet};
 
 pub(super) fn plugin(app: &mut App) {
     app.register_type::<CameraMovementController>();
@@ -21,30 +21,35 @@ pub(super) fn plugin(app: &mut App) {
 
 #[derive(Component, Reflect, Default)]
 #[reflect(Component)]
-pub struct CameraMovementController(pub Vec2);
+pub struct CameraMovementController(pub Vec2, pub Vec3);
 
 fn record_camera_movement_controller(
     input: Res<ButtonInput<KeyCode>>,
     mut camera_controller_query: Query<&mut CameraMovementController>,
 ) {
-    let mut intent = Vec2::ZERO;
+    let mut intent_translation = Vec2::ZERO;
     if input.pressed(KeyCode::ArrowUp) {
-        intent.y += 1.0;
+        intent_translation.y += 1.0;
     }
     if input.pressed(KeyCode::ArrowDown) {
-        intent.y -= 1.0;
+        intent_translation.y -= 1.0;
     }
     if input.pressed(KeyCode::ArrowLeft) {
-        intent.x -= 1.0;
+        intent_translation.x -= 1.0;
     }
     if input.pressed(KeyCode::ArrowRight) {
-        intent.x += 1.0;
+        intent_translation.x += 1.0;
+    }
+    let intent_translation = intent_translation.normalize_or_zero();
+
+    let mut intent_rotation = Vec3::ZERO;
+    if input.pressed(KeyCode::W) {
+        // look down
+        intent_rotation.y +=
     }
 
-    let intent = intent.normalize_or_zero();
-
     for mut camera_controller in &mut camera_controller_query {
-        camera_controller.0 = intent;
+        camera_controller.0 = intent_translation;
     }
 }
 
@@ -54,7 +59,7 @@ fn reset_camera_location(
 ) {
     if input.just_pressed(KeyCode::Space) {
         for (_, _, mut transform) in &mut camera_movement_query {
-            transform.translation = Vec3::ZERO;
+            *transform = get_default_camera_transform();
         }
     }
 }

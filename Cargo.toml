@@ -12,6 +12,9 @@ log = { version = "0.4", features = [
     "release_max_level_warn",
 ] }
 rand = "0.8"
+avian3d = "0.1"
+bevy-inspector-egui = "0.25"
+
 
 [features]
 default = [
