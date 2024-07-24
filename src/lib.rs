@@ -7,7 +7,7 @@ mod ui;
 use bevy::{
     asset::AssetMetaCheck,
     audio::{AudioPlugin, Volume},
-    prelude::*,
+    prelude::*, render::camera::ScalingMode,
 };
 use game::camera_movement::{CameraMovement, CameraMovementController};
 
@@ -76,17 +76,35 @@ enum AppSet {
 }
 
 fn spawn_camera(mut commands: Commands) {
+    // commands.spawn((
+    //     Name::new("Camera"),
+    //     Camera2dBundle::default(),
+    //     // Render all UI to this camera.
+    //     // Not strictly necessary since we only use one camera,
+    //     // but if we don't use this component, our UI will disappear as soon
+    //     // as we add another camera. This includes indirect ways of adding cameras like using
+    //     // [ui node outlines](https://bevyengine.org/news/bevy-0-14/#ui-node-outline-gizmos)
+    //     // for debugging. So it's good to have this here for future-proofing.
+    //     IsDefaultUiCamera,
+    //     CameraMovementController::default(),
+    //     CameraMovement { speed: 420.0 },
+    // ));
     commands.spawn((
         Name::new("Camera"),
-        Camera2dBundle::default(),
-        // Render all UI to this camera.
-        // Not strictly necessary since we only use one camera,
-        // but if we don't use this component, our UI will disappear as soon
-        // as we add another camera. This includes indirect ways of adding cameras like using
-        // [ui node outlines](https://bevyengine.org/news/bevy-0-14/#ui-node-outline-gizmos)
-        // for debugging. So it's good to have this here for future-proofing.
-        IsDefaultUiCamera,
+        Camera3dBundle {
+            projection: OrthographicProjection {
+                scaling_mode: ScalingMode::FixedVertical(6.0),
+                ..default()
+            }.into(),
+            transform: get_default_camera_transform(),
+            ..default()
+        },
         CameraMovementController::default(),
-        CameraMovement { speed: 420.0 },
+        CameraMovement { speed: 5.0 },
     ));
+}
+
+pub fn get_default_camera_transform() -> Transform {
+    Transform::from_xyz(5.0, 5.0, 5.0)
+    .looking_at(Vec3::ZERO, Vec3::Y)
 }
