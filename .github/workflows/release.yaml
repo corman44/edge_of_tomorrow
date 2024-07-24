@@ -56,6 +56,7 @@ jobs:
           - platform: web
             targets: wasm32-unknown-unknown
             profile: release
+            features: wasm
             binary_ext: .wasm
             package_ext: .zip
             runner: ubuntu-latest
