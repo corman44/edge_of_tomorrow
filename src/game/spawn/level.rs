@@ -1,6 +1,8 @@
 //! Spawn the main level by triggering other observers.
 
-use bevy::prelude::*;
+use std::f32::consts::PI;
+
+use bevy::{pbr::CascadeShadowConfigBuilder, prelude::*};
 
 use super::player::SpawnPlayer;
 
@@ -18,9 +20,6 @@ fn spawn_level(
     mut meshes: ResMut<Assets<Mesh>>,
 
 ) {
-    // The only thing we have in our level is a player,
-    // but add things like walls etc. here.
-    // commands.trigger(SpawnPlayer);
 
     // Plane
     commands.spawn(PbrBundle {
@@ -37,9 +36,24 @@ fn spawn_level(
         ..default()
     });
 
-    // Light
-    commands.spawn(PointLightBundle {
-        transform: Transform::from_xyz(3.0, 8.0, 5.0),
+    // SunLight
+    commands.spawn(DirectionalLightBundle {
+        directional_light: DirectionalLight {
+            illuminance: light_consts::lux::OVERCAST_DAY,
+            shadows_enabled: true,
+            ..default()
+        },
+        transform: Transform {
+            translation: Vec3::new(0.0, 2.0, 0.0),
+            rotation: Quat::from_rotation_x(-PI / 4.),
+            ..default()
+        },
+        cascade_shadow_config: CascadeShadowConfigBuilder {
+            first_cascade_far_bound: 4.0,
+            maximum_distance: 10.0,
+            ..default()
+        }
+        .into(),
         ..default()
     });
 }

@@ -21,32 +21,37 @@ pub(super) fn plugin(app: &mut App) {
 
 #[derive(Component, Reflect, Default)]
 #[reflect(Component)]
-pub struct CameraMovementController(pub Vec2, pub Vec3);
+pub struct CameraMovementController(pub Vec3, pub Vec3);
 
 fn record_camera_movement_controller(
     input: Res<ButtonInput<KeyCode>>,
     mut camera_controller_query: Query<&mut CameraMovementController>,
 ) {
-    let mut intent_translation = Vec2::ZERO;
+    let mut intent_translation = Vec3::ZERO;
     if input.pressed(KeyCode::ArrowUp) {
-        intent_translation.y += 1.0;
+        intent_translation.z -= 1.0;
+        intent_translation.x -= 1.0;
     }
     if input.pressed(KeyCode::ArrowDown) {
-        intent_translation.y -= 1.0;
+        intent_translation.z += 1.0;
+        intent_translation.x += 1.0;
     }
     if input.pressed(KeyCode::ArrowLeft) {
         intent_translation.x -= 1.0;
+        intent_translation.z += 1.0;
     }
     if input.pressed(KeyCode::ArrowRight) {
         intent_translation.x += 1.0;
+        intent_translation.z -= 1.0;
     }
     let intent_translation = intent_translation.normalize_or_zero();
 
-    let mut intent_rotation = Vec3::ZERO;
-    if input.pressed(KeyCode::W) {
-        // look down
-        intent_rotation.y +=
-    }
+    // TODO: add in camera rotation
+    // let mut intent_rotation = Vec3::ZERO;
+    // if input.pressed(KeyCode::W) {
+    //     // look down
+    //     intent_rotation.y +=
+    // }
 
     for mut camera_controller in &mut camera_controller_query {
         camera_controller.0 = intent_translation;
@@ -76,6 +81,6 @@ fn apply_camera_movement(
 ) {
     for (camera_controller, camera_movement, mut transform) in &mut camera_movement_query {
         let velocity = camera_movement.speed * camera_controller.0;
-        transform.translation += velocity.extend(0.0) * time.delta_seconds();
+        transform.translation += velocity * time.delta_seconds();
     }
 }

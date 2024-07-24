@@ -100,7 +100,7 @@ fn spawn_camera(mut commands: Commands) {
             ..default()
         },
         CameraMovementController::default(),
-        CameraMovement { speed: 1.0 },
+        CameraMovement { speed: 5.0 },
     ));
 }
 
