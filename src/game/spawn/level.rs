@@ -46,7 +46,13 @@ fn spawn_level(
     commands.spawn((
         PbrBundle {
             mesh: meshes.add(Cuboid::default()),
-            material: materials.add(Color::srgb(0.8, 0.7, 0.6)),
+            material: materials.add(
+                StandardMaterial {
+                    base_color: Color::linear_rgb(0.8, 0.1, 0.1),
+                    metallic: 0.9,
+                    ..default()
+                }
+            ),
             transform: Transform::from_xyz(1.5, 2.0, 1.5),
             ..default()
         },
