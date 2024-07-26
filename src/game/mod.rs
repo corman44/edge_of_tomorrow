@@ -5,8 +5,9 @@ use bevy::prelude::*;
 mod animation;
 pub mod assets;
 pub mod audio;
-mod movement;
 pub mod camera_movement;
+pub mod moneys;
+mod movement;
 pub mod spawn;
 pub mod player;
 
@@ -17,6 +18,7 @@ pub(super) fn plugin(app: &mut App) {
         assets::plugin,
         camera_movement::plugin,
         movement::plugin,
+        moneys::plugin,
         spawn::plugin,
         player::plugin,
     ));

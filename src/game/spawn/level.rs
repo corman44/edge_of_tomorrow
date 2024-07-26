@@ -6,6 +6,7 @@ use avian3d::prelude::{Collider, RigidBody};
 use bevy::{pbr::CascadeShadowConfigBuilder, prelude::*};
 
 use crate::game::player::systems::SpawnPlayer;
+use crate::game::moneys::PlayerMoney;
 
 pub(super) fn plugin(app: &mut App) {
     app.observe(spawn_level);
@@ -20,6 +21,9 @@ pub struct Ground;
 #[derive(Component)]
 pub struct MyLight;
 
+#[derive(Component)]
+pub struct PlayerMoneyText;
+
 fn spawn_level(
     _trigger: Trigger<SpawnLevel>,
     mut commands: Commands,
@@ -27,10 +31,12 @@ fn spawn_level(
     mut meshes: ResMut<Assets<Mesh>>,
     ground_query: Query<&Ground>,
     mylight_query: Query<&MyLight>,
+    player_money_query: Query<&PlayerMoneyText>,
+    player_money: Res<PlayerMoney>,
 ) {
 
+    // Plane
     if ground_query.is_empty() {
-        // Plane
         commands.spawn((
             PbrBundle {
                 mesh: meshes.add(Cuboid::default()),
@@ -64,8 +70,8 @@ fn spawn_level(
         Collider::cuboid(1.0, 1.0, 1.0)
     ));
 
+    // SunLight
     if mylight_query.is_empty() {
-        // SunLight
         commands.spawn((
             DirectionalLightBundle {
                 directional_light: DirectionalLight {
@@ -89,4 +95,29 @@ fn spawn_level(
             MyLight,
         ));
     }
+
+    // PlayerMoneyText
+    if player_money_query.is_empty() {
+        commands.spawn(
+            NodeBundle {
+                ..default()
+            }
+        ).with_children(|builder| {
+            builder.spawn((
+                TextBundle {
+                    text: Text::from_section(
+                        "",
+                        TextStyle {
+                            color: Color::WHITE,
+                            ..default()
+                        },
+                    ),
+                    ..default()
+            },
+            PlayerMoneyText
+            ));
+        });
+    }
+    
+
 }
