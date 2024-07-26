@@ -1,6 +1,8 @@
 pub mod fitness;
 
-use fitness::PopulationSum;
+use std::ops::Range;
+
+use fitness::ReproductiveScore;
 use genetic_algorithm::strategy::evolve::prelude::*;
 use rand::prelude::*;
 use rand::rngs::SmallRng;
@@ -16,18 +18,21 @@ pub fn run_simulation() {
     println!("{}", genotype);
 
     let now = std::time::Instant::now();
+    const POPULATION_SIZE: usize = 100;
+    let mut reproduction_score: Range<i16> = 0..POPULATION_SIZE as i16;
 
-    let evolve = Evolve::builder()
+    let evolve: Evolve<ContinuousGenotype, MutateOnce, ReproductiveScore, CrossoverUniform, CompeteTournament, ExtensionNoop> = Evolve::builder()
         .with_genotype(genotype)
-        .with_target_population_size(100)
+        .with_target_population_size(POPULATION_SIZE)
         .with_max_stale_generations(10)
         .with_mutate(MutateOnce::new(0.2))
-        .with_fitness(PopulationSum(1e-5))
+        .with_fitness(ReproductiveScore(reproduction_score))
         .with_crossover(CrossoverUniform::new(true))
         .with_compete(CompeteTournament::new(4))
         .with_extension(ExtensionNoop::new())
         .call(&mut rng)
         .unwrap();
+
 
     let duration = now.elapsed();
 

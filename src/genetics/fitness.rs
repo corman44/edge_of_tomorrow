@@ -1,12 +1,11 @@
+use std::ops::Range;
+
 use genetic_algorithm::chromosome::Chromosome;
 use genetic_algorithm::fitness::{Fitness, FitnessValue};
-use genetic_algorithm::genotype::{ContinuousGenotype, ContinuousGenotypeAllele, Genotype};
-
-pub type PopulationSumGenotypePrecision = ContinuousGenotypeAllele;
-/// placeholder for testing and bootstrapping, not really used in practice
+use genetic_algorithm::genotype::{ContinuousGenotype, Genotype};
 #[derive(Clone, Debug)]
-pub struct PopulationSum(pub PopulationSumGenotypePrecision);
-impl Fitness for PopulationSum {
+pub struct ReproductiveScore(pub Range<i16>);
+impl Fitness for ReproductiveScore {
     type Genotype = ContinuousGenotype;
     fn calculate_for_chromosome(
         &mut self,
@@ -21,3 +20,4 @@ impl Fitness for PopulationSum {
         )
     }
 }
+
