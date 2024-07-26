@@ -1,15 +1,15 @@
-use genetic_algorithm::fitness::placeholders::SumContinuousGenotype;
+pub mod fitness;
+
+use fitness::PopulationSum;
 use genetic_algorithm::strategy::evolve::prelude::*;
 use rand::prelude::*;
 use rand::rngs::SmallRng;
 
-fn main() {
-    env_logger::init();
-
+pub fn run_simulation() {
     let mut rng = SmallRng::from_entropy();
-    let genotype = ContinuousGenotype::builder()
+    let genotype: ContinuousGenotype = ContinuousGenotype::builder()
         .with_genes_size(16)
-        .with_allele_range(0.0..1.0)
+        .with_allele_range(-1.0..1.0)
         .build()
         .unwrap();
 
@@ -20,10 +20,9 @@ fn main() {
     let evolve = Evolve::builder()
         .with_genotype(genotype)
         .with_target_population_size(100)
-        .with_max_stale_generations(100)
-        .with_target_fitness_score(99 * 100_000)
+        .with_max_stale_generations(10)
         .with_mutate(MutateOnce::new(0.2))
-        .with_fitness(SumContinuousGenotype(1e-5))
+        .with_fitness(PopulationSum(1e-5))
         .with_crossover(CrossoverUniform::new(true))
         .with_compete(CompeteTournament::new(4))
         .with_extension(ExtensionNoop::new())
@@ -34,4 +33,4 @@ fn main() {
 
     println!("{}", evolve);
     println!("duration: {:?}", duration);
-}
+} 

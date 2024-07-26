@@ -2,8 +2,9 @@
 #![cfg_attr(not(feature = "dev"), windows_subsystem = "windows")]
 
 use bevy::prelude::*;
-use you_are_bugs::AppPlugin;
+use you_are_bugs::{genetics::*, AppPlugin};
 
-fn main() -> AppExit {
-    App::new().add_plugins(AppPlugin).run()
+fn main() {
+    // App::new().add_plugins(AppPlugin).run()
+    run_simulation();
 }
