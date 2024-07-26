@@ -5,6 +5,7 @@ use std::f32::consts::PI;
 use avian3d::prelude::{Collider, RigidBody};
 use bevy::{pbr::CascadeShadowConfigBuilder, prelude::*};
 
+use crate::game::player::systems::SpawnPlayer;
 use crate::game::moneys::PlayerMoney;
 
 pub(super) fn plugin(app: &mut App) {
@@ -48,6 +49,8 @@ fn spawn_level(
             Ground,
         ));
     }
+
+    commands.trigger(SpawnPlayer);
 
     // Cube
     commands.spawn((

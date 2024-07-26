@@ -9,6 +9,7 @@ pub mod camera_movement;
 pub mod moneys;
 mod movement;
 pub mod spawn;
+pub mod player;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
@@ -19,5 +20,6 @@ pub(super) fn plugin(app: &mut App) {
         movement::plugin,
         moneys::plugin,
         spawn::plugin,
+        player::plugin,
     ));
 }
