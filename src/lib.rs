@@ -93,7 +93,7 @@ fn spawn_camera(mut commands: Commands) {
         Name::new("Camera"),
         Camera3dBundle {
             projection: OrthographicProjection {
-                scaling_mode: ScalingMode::FixedVertical(6.0),
+                scaling_mode: ScalingMode::FixedVertical(10.0),
                 ..default()
             }.into(),
             transform: get_default_camera_transform(),
