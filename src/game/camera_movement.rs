@@ -1,4 +1,4 @@
-use bevy::{prelude::*, window::PrimaryWindow};
+use bevy::{input::mouse::MouseWheel, prelude::*};
 
 use crate::{get_default_camera_transform, AppSet};
 
@@ -14,6 +14,7 @@ pub(super) fn plugin(app: &mut App) {
         Update,
         (
             apply_camera_movement,
+            camera_zoom,
             reset_camera_location,
         ).in_set(AppSet::Update),
     );
@@ -46,15 +47,22 @@ fn record_camera_movement_controller(
     }
     let intent_translation = intent_translation.normalize_or_zero();
 
-    // TODO: add in camera rotation
-    // let mut intent_rotation = Vec3::ZERO;
-    // if input.pressed(KeyCode::W) {
-    //     // look down
-    //     intent_rotation.y +=
-    // }
-
     for mut camera_controller in &mut camera_controller_query {
         camera_controller.0 = intent_translation;
+    }
+}
+
+fn camera_zoom(
+    mut evr_scroll: EventReader<MouseWheel>,
+    mut camera_query: Query<&mut Projection, With<CameraMovement>>,
+) {
+    for ev in evr_scroll.read() {
+        if ev.y != 0.0 {
+            let Projection::Orthographic(p) = camera_query.single_mut().into_inner() else { 
+                return;
+            };
+            p.scale *=  1.0 - (ev.y * 0.125);
+        }
     }
 }
 

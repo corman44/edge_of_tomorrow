@@ -76,24 +76,11 @@ enum AppSet {
 }
 
 fn spawn_camera(mut commands: Commands) {
-    // commands.spawn((
-    //     Name::new("Camera"),
-    //     Camera2dBundle::default(),
-    //     // Render all UI to this camera.
-    //     // Not strictly necessary since we only use one camera,
-    //     // but if we don't use this component, our UI will disappear as soon
-    //     // as we add another camera. This includes indirect ways of adding cameras like using
-    //     // [ui node outlines](https://bevyengine.org/news/bevy-0-14/#ui-node-outline-gizmos)
-    //     // for debugging. So it's good to have this here for future-proofing.
-    //     IsDefaultUiCamera,
-    //     CameraMovementController::default(),
-    //     CameraMovement { speed: 420.0 },
-    // ));
     commands.spawn((
         Name::new("Camera"),
         Camera3dBundle {
             projection: OrthographicProjection {
-                scaling_mode: ScalingMode::FixedVertical(6.0),
+                scaling_mode: ScalingMode::FixedVertical(10.0),
                 ..default()
             }.into(),
             transform: get_default_camera_transform(),
