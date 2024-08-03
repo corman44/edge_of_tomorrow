@@ -41,7 +41,7 @@ fn spawn_level(
             PbrBundle {
                 mesh: meshes.add(Cuboid::default()),
                 material: materials.add(Color::srgb(0.3, 0.5, 0.3)),
-                transform: Transform::from_xyz(0.0, -1.0, 0.0).with_scale(Vec3::new(10.0, 0.5, 10.0)),
+                transform: Transform::from_xyz(0.0, -1.0, 0.0).with_scale(Vec3::new(20.0, 0.5, 20.0)),
                 ..default()
             },
             RigidBody::Static,
@@ -86,7 +86,7 @@ fn spawn_level(
                 },
                 cascade_shadow_config: CascadeShadowConfigBuilder {
                     first_cascade_far_bound: 4.0,
-                    maximum_distance: 10.0,
+                    maximum_distance: 100.0,
                     ..default()
                 }
                 .into(),

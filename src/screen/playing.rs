@@ -1,6 +1,6 @@
 //! The screen state for the main game loop.
 
-use bevy::{input::common_conditions::input_just_pressed, prelude::*};
+use bevy::{input::{common_conditions::input_just_pressed, mouse::{self, MouseButtonInput}}, prelude::*};
 
 use super::Screen;
 use crate::game::{
@@ -19,7 +19,7 @@ pub(super) fn plugin(app: &mut App) {
 
     app.add_systems(
         Update,
-        shoot_bullet.run_if(in_state(Screen::Playing).and_then(input_just_pressed(KeyCode::Space))),
+        shoot_bullet.run_if(in_state(Screen::Playing)),
     );
 }
 
@@ -38,6 +38,11 @@ fn return_to_title_screen(mut next_screen: ResMut<NextState<Screen>>) {
     next_screen.set(Screen::Title);
 }
 
-fn shoot_bullet(mut commands: Commands) {
-    commands.trigger(SpawnBullet);
+fn shoot_bullet(
+    mut commands: Commands,
+    mouse_click: Res<ButtonInput<MouseButton>>,
+) {
+    if mouse_click.just_pressed(MouseButton::Left) {
+        commands.trigger(SpawnBullet);
+    }
 }

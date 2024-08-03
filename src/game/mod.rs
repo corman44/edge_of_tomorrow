@@ -17,7 +17,7 @@ pub(super) fn plugin(app: &mut App) {
         audio::plugin,
         assets::plugin,
         camera_movement::plugin,
-        movement::plugin,
+        // movement::plugin,
         moneys::plugin,
         spawn::plugin,
         player::plugin,

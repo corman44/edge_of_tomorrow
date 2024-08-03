@@ -50,6 +50,7 @@ fn spawn_player(
         Restitution::ZERO.with_combine_rule(CoefficientCombine::Min),
         GravityScale(2.0),
         StateScoped(Screen::Playing),
+        Player,
     ));
 }
 
@@ -64,6 +65,7 @@ pub fn spawn_bullet(
         return;
     }
     for player_position in query.iter() {
+        info!("spawning bullet..");
         println!("Player position: {:?}", player_position.0);
         commands.spawn((
             PbrBundle {
