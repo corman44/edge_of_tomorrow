@@ -8,6 +8,9 @@ use bevy::{pbr::CascadeShadowConfigBuilder, prelude::*};
 use crate::game::player::systems::SpawnPlayer;
 use crate::game::moneys::PlayerMoney;
 
+pub const MAX_X: f32 = 100.0;
+pub const MAX_Z: f32 = 100.0;
+
 pub(super) fn plugin(app: &mut App) {
     app.observe(spawn_level);
 }
@@ -41,7 +44,8 @@ fn spawn_level(
             PbrBundle {
                 mesh: meshes.add(Cuboid::default()),
                 material: materials.add(Color::srgb(0.3, 0.5, 0.3)),
-                transform: Transform::from_xyz(0.0, -1.0, 0.0).with_scale(Vec3::new(20.0, 0.5, 20.0)),
+                transform: Transform::from_xyz(0.0, -1.0, 0.0)
+                    .with_scale(Vec3::new(MAX_X, 0.5, MAX_Z)),
                 ..default()
             },
             RigidBody::Static,

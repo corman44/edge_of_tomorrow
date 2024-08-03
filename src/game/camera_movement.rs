@@ -15,7 +15,7 @@ pub(super) fn plugin(app: &mut App) {
         (
             apply_camera_movement,
             camera_zoom,
-            reset_camera_location,
+            // reset_camera_location,
         ).in_set(AppSet::Update),
     );
 }

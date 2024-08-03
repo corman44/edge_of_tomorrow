@@ -9,7 +9,7 @@ use bevy::{
     audio::{AudioPlugin, Volume},
     prelude::*, render::camera::ScalingMode,
 };
-use game::camera_movement::{CameraMovement, CameraMovementController};
+use game::{camera_movement::{CameraMovement, CameraMovementController}, spawn::level::{MAX_X, MAX_Z}};
 
 pub struct AppPlugin;
 
@@ -80,7 +80,7 @@ fn spawn_camera(mut commands: Commands) {
         Name::new("Camera"),
         Camera3dBundle {
             projection: OrthographicProjection {
-                scaling_mode: ScalingMode::FixedVertical(10.0),
+                scaling_mode: ScalingMode::FixedVertical(15.0),
                 ..default()
             }.into(),
             transform: get_default_camera_transform(),
@@ -92,6 +92,6 @@ fn spawn_camera(mut commands: Commands) {
 }
 
 pub fn get_default_camera_transform() -> Transform {
-    Transform::from_xyz(10.0, 10.0, 10.0)
+    Transform::from_xyz(MAX_X, MAX_X * 0.8, MAX_Z)
     .looking_at(Vec3::ZERO, Vec3::Y)
 }
